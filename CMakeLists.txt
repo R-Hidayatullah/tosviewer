@@ -40,13 +40,13 @@ set(IMGUI_SOURCES
     external/imgui-docking/backends/imgui_impl_glfw.cpp
 )
 
-set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++ -static")
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++ -static -lz")
 
 
 # Add source to this project's executable.
 add_executable (tosviewer 
     ${IMGUI_SOURCES}
-    "source/tosviewer.cpp")
+    "source/tosviewer.cpp" "include/application.h" "include/ipf_formats.h" "include/ies_formats.h")
 
 #if (CMAKE_VERSION VERSION_GREATER 3.12)
 #  set_property(TARGET tosviewer PROPERTY CXX_STANDARD 20)

@@ -2,6 +2,8 @@
 #define SHARED_FORMATS_H
 #include <stdint.h>
 #include <string>
+#include <vector>
+
 
 // shared chunk ID's
 enum

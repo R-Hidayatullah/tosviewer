@@ -293,4 +293,13 @@ struct XSM_WaveletChunk
 	//		uint8_t	mCompressedScaleData[mCompressedScaleNumBytes]
 };
 
+// Root structure
+struct XSM_Root
+{
+	XSM_Header header;
+	XSM_Info info;
+	XSM_SubMotions subMotions;
+	XSM_WaveletInfo waveletInfo;
+};
+
 #endif // !XSM_FORMATS_H

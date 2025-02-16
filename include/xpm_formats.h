@@ -77,4 +77,11 @@ struct XPM_SubMotions
 	// followed by:
 	// XPM_ProgressiveSubMotion[ mNumSubMotions ]
 };
+
+struct XPM_Root
+{
+	XPM_Header header;
+	XPM_Info info;
+	XPM_SubMotions subMotions;
+};
 #endif // !XPM_FORMATS_H
