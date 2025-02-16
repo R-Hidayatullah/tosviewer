@@ -1,0 +1,10 @@
+{
+  "dependencies": [
+    "directxtex",
+    "glfw3",
+    "glm",
+    "libjpeg-turbo",
+    "libpng",
+    "stb"
+  ]
+}
