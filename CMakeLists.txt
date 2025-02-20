@@ -1,35 +1,25 @@
-﻿# CMakeList.txt : CMake project for tosviewer, include source and define
-# project specific logic here.
-#
-cmake_minimum_required (VERSION 3.8)
+﻿cmake_minimum_required(VERSION 3.10)
 
-# Enable Hot Reload for MSVC compilers if supported.
-if (POLICY CMP0141)
-  cmake_policy(SET CMP0141 NEW)
-  set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
-endif()
-
-project ("tosviewer")
-set(CMAKE_TOOLCHAIN_FILE "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
+project("tosviewer")
 
 # Set C++ standard
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF) # Ensures strict standard compliance
 
+
+# Include directories
 include_directories(include)
-include_directories(external/glad33corewithext/include)
+include_directories(external/glad33core/include)
 include_directories(external/imgui-docking)
 include_directories(external/imgui-docking/backends)
+include_directories(external/glm-1.0.1-light) 
+include_directories(external/stb-master) 
 
-find_package(directxtex CONFIG REQUIRED)
-find_package(JPEG REQUIRED)
-find_package(PNG REQUIRED)
-find_package(glm CONFIG REQUIRED)
-find_package(glfw3 CONFIG REQUIRED)
-find_package(Stb REQUIRED)
+# Find GLFW package
+find_package(glfw3 REQUIRED)
 
-add_subdirectory(external/glad33corewithext)
-
+# Source files for ImGui
 set(IMGUI_SOURCES
     external/imgui-docking/imgui.cpp
     external/imgui-docking/imgui_demo.cpp
@@ -40,30 +30,11 @@ set(IMGUI_SOURCES
     external/imgui-docking/backends/imgui_impl_glfw.cpp
 )
 
-set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++ -static -lz")
+# Set linker flags for static linking
+# set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++ -static")
 
+# Add source to the executable
+add_executable(tosviewer ${IMGUI_SOURCES} external/glad33core/src/glad.c source/tosviewer.cpp)
 
-# Add source to this project's executable.
-add_executable (tosviewer 
-    ${IMGUI_SOURCES}
-    "source/tosviewer.cpp" "include/application.h" "include/ipf_formats.h" "include/ies_formats.h")
-
-#if (CMAKE_VERSION VERSION_GREATER 3.12)
-#  set_property(TARGET tosviewer PROPERTY CXX_STANDARD 20)
-#endif()
-
-# TODO: Add tests and install targets if needed.
-
-target_include_directories(${PROJECT_NAME} PRIVATE JPEG::JPEG)
-target_include_directories(${PROJECT_NAME} PRIVATE ${Stb_INCLUDE_DIR})
-
-# Link libraries to your executable
-target_link_libraries(${PROJECT_NAME} 
-    Microsoft::DirectXTex
-    glfw
-    opengl32
-    glad
-    glm::glm
-    PNG::PNG
-    JPEG::JPEG
-)
+# Link libraries
+target_link_libraries(tosviewer glfw z)
